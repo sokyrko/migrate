@@ -5,4 +5,6 @@ while ! mysqladmin ping -h ${DB_HOST} --password=${DB_PASS} --user=${DB_USER} --
     sleep 1
 done
 
+echo "migrate $*"
+
 migrate $*
