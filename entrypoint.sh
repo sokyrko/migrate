@@ -1,13 +1,8 @@
 #!/usr/bin/env sh
 
-if [ -n "${DB_HOST}" -a -n "${DB_PORT}" ]; then
-    waitforit \
-        -host=${DB_HOST} \
-        -port=${DB_PORT} \
-        -timeout=${TIMEOUT:-60}
-    if [ $? -ne 0 ]; then
-        exit 1
-    fi
-fi
+while ! mysqladmin ping -h ${DB_HOST} --password=${DB_PASS} --user=${DB_USER} --silent; do
+    echo "Waiting for mysql..."
+    sleep 1
+done
 
 migrate $*
